@@ -88,14 +88,16 @@ target_include_directories(example-usage PRIVATE ${CMAKE_SOURCE_DIR}/include)
 ## Building the example
 
 The first step is creating a directory for your project. After doing so, create
-a new CMakeLists.txt file containing the template provided above inside it and 
-copy the example from the [cclap/test/](test) folder.
+a new CMakeLists.txt file containing the template provided above inside it.
+
+The next step involves copying the cclap include directory into your project folder, along with the example.
 
 You should end up with something like this:
 
 ```
 ./
 CMakeLists.txt
+include/cclap/
 example-usage.cpp
 ```
 
