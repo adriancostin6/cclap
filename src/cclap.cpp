@@ -1,4 +1,4 @@
-#include "cclap.h"
+#include "cclap/cclap.h"
 
 #include <stdexcept>
 

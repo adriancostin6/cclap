@@ -1,5 +1,5 @@
-#ifndef ARG_PARSER_H
-#define ARG_PARSER_H
+#ifndef CCLAP_H
+#define CCLAP_H
 
 #include <string_view>
 #include <vector>

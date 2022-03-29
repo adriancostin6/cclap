@@ -1,11 +1,9 @@
 #include <iostream>
 
-#include <catch2/catch_test_macros.hpp>
-
-#include "cclap.h"
+#include "cclap/cclap.h"
 
 // Chose to provide mandatory arguments first, check for correct order
-TEST_CASE("How to use the Command-line parser API", "[api-usage]") {
+int main() {
     // Example command line argument string
     int argc = 12;
     const char *argv[] = {

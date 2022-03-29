@@ -82,6 +82,7 @@ FetchContent_MakeAvailable(catch2)
 
 add_executable(example-usage example-usage.cpp)
 target_link_libraries(example-usage PRIVATE cclap) 
+target_include_directories(example-usage PRIVATE ${CMAKE_SOURCE_DIR}/include)
 ```
 
 ## Building the example

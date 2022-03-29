@@ -2,7 +2,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "cclap.h"
+#include "cclap/cclap.h"
 
 // Chose to provide mandatory arguments first, check for correct order
 TEST_CASE("Right argument order (options last)", "[arg-parser]") {
