@@ -13,15 +13,19 @@ below...
 int main(int argc, char *argv[]) {
     cclap::ArgParser ap(argc, argv);
     
-    // Retrieve the arguments 
+    // Retrieve the arguments; can also use auto for convenience
+    // API types provided here for reference
     const cclap::ArgVector& arguments = ap.args(); 
     const cclap::NamedPairVector& flags = ap.flags(); 
     const cclap::ArgVector& switches = ap.switches();
 
-    // Printing all the arguments, demo on how to access each one
+    // Accessing command line arguments
+    // Required args
     for (auto arg: arguments) {
         std::cout << arg << " ";
     }
+    
+    // Optional args
     for (auto flag: flags) {
         std::cout << "-" << flag.first << " ";
         for (auto value: flag.second) {
@@ -74,11 +78,11 @@ project(example LANGUAGES CXX)
 
 include(FetchContent)
 FetchContent_Declare(
-    catch2
+    cclap
     GIT_REPOSITORY    https://github.com/adriancostin6/cclap.git
     )
 message(STATUS "Fetching cclap...")
-FetchContent_MakeAvailable(catch2)
+FetchContent_MakeAvailable(cclap)
 
 add_executable(example-usage example-usage.cpp)
 target_link_libraries(example-usage PRIVATE cclap) 
