@@ -2,10 +2,10 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "arg-parser.h"
+#include "cclap.h"
 
 // Chose to provide mandatory arguments first, check for correct order
-TEST_CASE("Arguments in the right order (options last)", "[arg-parser]") {
+TEST_CASE("Right argument order (options last)", "[arg-parser]") {
     int argc = 12;
     const char *argv[] = {
             "hello",
@@ -31,7 +31,7 @@ TEST_CASE("Arguments in the right order (options last)", "[arg-parser]") {
     // test size of returned arguments
     REQUIRE(arguments.size() == 3);
     REQUIRE(flags.size() == 2);
-    REQUIRE(switches.size() == 4);
+    REQUIRE(switches.size() == 6);
 
     // test for argument equality
     for (int i = 0; i < arguments.size(); ++i) {
@@ -48,29 +48,22 @@ TEST_CASE("Arguments in the right order (options last)", "[arg-parser]") {
     REQUIRE(flag_name2 == "o");
     REQUIRE(flag_val2[0] == "outfile.txt");
 
-    auto switch1 = switches[0].second;
+    auto switch1 = switches[0];
+    auto switch2 = switches[1];
+    auto switch3 = switches[2];
+    auto switch4 = switches[3];
+    auto switch5 = switches[4];
+    auto switch6 = switches[5];
     REQUIRE(switch1 == "single-switch");
-    auto switch_type1 = switches[0].first;
-    REQUIRE(switch_type1 == cclap::SwitchType::SINGLE);
-
-    auto switch2 = switches[1].second;
     REQUIRE(switch2 == "s");
-    auto switch_type2 = switches[1].first;
-    REQUIRE(switch_type2 == cclap::SwitchType::SINGLE);
-
-    auto switch3 = switches[2].second;
     REQUIRE(switch3 == "multi-switch-next");
-    auto switch_type3 = switches[2].first;
-    REQUIRE(switch_type3 == cclap::SwitchType::SINGLE);
-
-    auto switch4 = switches[3].second;
-    REQUIRE(switch4 == "src");
-    auto switch_type4 = switches[3].first;
-    REQUIRE(switch_type4 == cclap::SwitchType::MULTI);
+    REQUIRE(switch4 == "s");
+    REQUIRE(switch5 == "r");
+    REQUIRE(switch6 == "c");
 } 
 
 // Chose to provide mandatory arguments first, check for wrong order
-TEST_CASE("Arguments in the wrong order (options first)", "[arg-parser]") {
+TEST_CASE("Wrong argument order (options first)", "[arg-parser]") {
     int argc = 12;
     const char *argv[] = {
             "-i",

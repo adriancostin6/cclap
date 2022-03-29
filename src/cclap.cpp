@@ -1,4 +1,4 @@
-#include "arg-parser.h"
+#include "cclap.h"
 
 #include <stdexcept>
 
@@ -20,13 +20,15 @@ ArgParser::ArgParser(int argc, const char *argv[]) {
         int j = i; // keep a copy, in case switches are not found
         // Store the switch 
         if (is_switch(argv, argc, i++)) {
-            if (prefix == 1) {
-                SwitchPair sp(SwitchType::MULTI, arg);
-                switches_.push_back(sp);
-                continue;
+            // Deal with multi-switches: -odgsajk
+            if(prefix == 1) {
+                for (int i = 0; i < arg.size(); ++i) {
+                    std::string_view individual_switch = arg.substr(i, 1); 
+                    switches_.push_back(individual_switch);
+                }
+            } else {
+                switches_.push_back(arg);
             }
-            SwitchPair sp(SwitchType::SINGLE, arg);
-            switches_.push_back(sp);
             continue;
         }
 
@@ -64,7 +66,7 @@ bool ArgParser::is_flag(const char *argv[], int argc, int pos) {
 bool ArgParser::is_switch(const char *argv[], int argc, int pos) {
     int current_prefix_len = arg_prefix_len(argv[pos]);
     return current_prefix_len != 0 &&
-        !is_flag(argv, argc, pos) ? true: false;
+    !is_flag(argv, argc, pos) ? true: false;
 }
 
 ArgVector 
@@ -81,7 +83,7 @@ ArgParser::get_flag_args(const char *argv[], int argc, int& pos) {
 const NamedPairVector& 
 ArgParser::flags() const { return flags_; }
 
-const SwitchPairVector& 
+const ArgVector& 
 ArgParser::switches() const { return switches_; }
 
 const ArgVector& 

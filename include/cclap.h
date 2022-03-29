@@ -6,13 +6,9 @@
 #include <utility>
 
 namespace cclap {
-    enum class SwitchType { SINGLE, MULTI }; // Single: -i --sort; Multi: -isap
-
     typedef std::string_view ArgName;
     typedef std::vector<ArgName> ArgVector;
-    typedef std::pair<SwitchType, ArgName> SwitchPair;
     typedef std::pair<ArgName, ArgVector> NamedPair;
-    typedef std::vector<SwitchPair> SwitchPairVector;
     typedef std::vector<NamedPair> NamedPairVector;
 
 /** @brief Command Line Argument Parser class.
@@ -70,7 +66,7 @@ public:
     /// @returns vector of pairs: ["flag-name": [flag value ...]]
     const NamedPairVector& flags() const;
     /// @returns vector of pairs: [SwitchType: "switch-name" ...]
-    const SwitchPairVector& switches() const;
+    const ArgVector& switches() const;
     /// @returns vector of arguments: [arg ...]
     const ArgVector& args() const;
 
@@ -81,7 +77,7 @@ private:
     bool is_switch(const char *argv[], int argc, int pos);
 
     NamedPairVector flags_;
-    SwitchPairVector switches_;
+    ArgVector switches_;
     ArgVector arguments_;
 };
 

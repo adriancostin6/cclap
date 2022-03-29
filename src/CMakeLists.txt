@@ -1,5 +1,5 @@
 add_library(cclap STATIC
-        arg-parser.cpp
+        cclap.cpp
 )
 
 target_include_directories(cclap PRIVATE ${CMAKE_SOURCE_DIR}/include)
