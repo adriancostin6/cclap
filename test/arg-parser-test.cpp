@@ -6,8 +6,9 @@
 
 // Chose to provide mandatory arguments first, check for correct order
 TEST_CASE("Right argument order (options last)", "[arg-parser]") {
-    int argc = 12;
+    int argc = 13;
     const char *argv[] = {
+            "/home/adrian/repos/src/cclap/build/test/arg-parser-test",
             "hello",
             "world",
             "test",
@@ -24,9 +25,12 @@ TEST_CASE("Right argument order (options last)", "[arg-parser]") {
 
     cclap::ArgParser ap(argc, argv);
 
+    auto program_name = ap.program_name();
     auto arguments = ap.args();
     auto flags = ap.flags();
     auto switches = ap.switches();
+
+    REQUIRE(program_name == argv[0]);
 
     // test size of returned arguments
     REQUIRE(arguments.size() == 3);
@@ -34,8 +38,10 @@ TEST_CASE("Right argument order (options last)", "[arg-parser]") {
     REQUIRE(switches.size() == 6);
 
     // test for argument equality
+    int j=1;
     for (int i = 0; i < arguments.size(); ++i) {
-        REQUIRE (arguments[i] == argv[i]);
+        REQUIRE (arguments[i] == argv[j]);
+        ++j;
     }
 
     auto flag_name1 = flags[0].first;
@@ -66,6 +72,7 @@ TEST_CASE("Right argument order (options last)", "[arg-parser]") {
 TEST_CASE("Wrong argument order (options first)", "[arg-parser]") {
     int argc = 12;
     const char *argv[] = {
+            "/home/adrian/repos/src/cclap/build/test/arg-parser-test",
             "-i",
             "input_file1.txt",
             "input_file2.txt",
@@ -82,9 +89,12 @@ TEST_CASE("Wrong argument order (options first)", "[arg-parser]") {
 
     cclap::ArgParser ap(argc, argv);
 
+    auto program_name = ap.program_name();
     auto arguments = ap.args();
     auto flags = ap.flags();
     auto switches = ap.switches();
+
+    REQUIRE(program_name == argv[0]);
 
     //Test by checking if we have flags in regular arguments
     for (auto argument: arguments){

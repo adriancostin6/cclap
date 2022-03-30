@@ -5,13 +5,16 @@
 namespace cclap {
 
 ArgParser::ArgParser(int argc, const char *argv[]) {
-    int i = 0;
+    // Assign program name
+    program_name_ = std::string_view{ argv[0] };
+
+    int i = 1;
     while (i < argc) {
         uint8_t prefix = arg_prefix_len(argv[i]);
         std::string_view arg { argv[i] };
         arg.remove_prefix(prefix);
         if (!prefix) {
-            // Store regular argument
+            // Store regular (required) argument
             arguments_.push_back(arg);
             ++i;
             continue;
@@ -80,13 +83,13 @@ ArgParser::get_flag_args(const char *argv[], int argc, int& pos) {
     return flag_args;
 }
 
-const NamedPairVector& 
-ArgParser::flags() const { return flags_; }
+const NamedPairVector& ArgParser::flags() const { return flags_; }
 
-const ArgVector& 
-ArgParser::switches() const { return switches_; }
+const ArgVector& ArgParser::switches() const { return switches_; }
 
-const ArgVector& 
-ArgParser::args() const { return arguments_; }
+const ArgVector& ArgParser::args() const { return arguments_; }
+
+const std::string_view&
+ArgParser::program_name() const { return program_name_; }
 
 }
