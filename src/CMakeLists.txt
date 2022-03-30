@@ -2,7 +2,7 @@ add_library(cclap STATIC
         cclap.cpp
 )
 
-target_include_directories(cclap PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(cclap PRIVATE ${cclap_SOURCE_DIR}/include)
 
 set_target_properties(cclap
     PROPERTIES
