@@ -63,7 +63,7 @@ public:
     /// Constructor. Processes input command line arguments into member data
     ArgParser(int argc, const char *argv[]);
 
-    const std::string_view& program_name() const;
+    const ArgName& program_name() const;
     /// @returns vector of pairs: ["flag-name": [flag value ...]]
     const NamedPairVector& flags() const;
     /// @returns vector of pairs: [SwitchType: "switch-name" ...]

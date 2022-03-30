@@ -59,7 +59,7 @@ git clone https://github.com/adriancostin6/cclap.git
 cd cclap
 mkdir build 
 cd build
-cmake .. -DBUILD_TESTS=true # providing this flag enables building tests as well
+cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=true
 make
 ```
 
