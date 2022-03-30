@@ -12,6 +12,13 @@ if(CCACHE_FOUND)
   set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
 endif(CCACHE_FOUND)
 
+IF(NOT CMAKE_BUILD_TYPE)
+    MESSAGE(STATUS "Setting build type to 'RelWithDebInfo'.")
+    SET(CMAKE_BUILD_TYPE RelWithDebInfo)
+ELSE(NOT CMAKE_BUILD_TYPE)
+    MESSAGE(STATUS "Using specified '${CMAKE_BUILD_TYPE}' build type.")
+ENDIF(NOT CMAKE_BUILD_TYPE)
+
 if (BUILD_TESTS)
     include(FetchContent)
     FetchContent_Declare(
