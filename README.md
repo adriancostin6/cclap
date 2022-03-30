@@ -13,6 +13,9 @@ below...
 int main(int argc, char *argv[]) {
     cclap::ArgParser ap(argc, argv);
     
+    // Retrieve program name
+    const cclap::ArgName& program_name = ap.program_name(); 
+    
     // Retrieve the arguments; can also use auto for convenience
     // API types provided here for reference
     const cclap::ArgVector& arguments = ap.args(); 

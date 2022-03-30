@@ -89,7 +89,6 @@ const ArgVector& ArgParser::switches() const { return switches_; }
 
 const ArgVector& ArgParser::args() const { return arguments_; }
 
-const std::string_view&
-ArgParser::program_name() const { return program_name_; }
+const ArgName& ArgParser::program_name() const { return program_name_; }
 
 }

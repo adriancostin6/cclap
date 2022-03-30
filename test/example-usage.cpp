@@ -23,10 +23,14 @@ int main() {
 
     cclap::ArgParser ap(argc, argv);
 
+    const cclap::ArgName& program_name = ap.program_name(); 
+
     // Retrieve the arguments 
     const cclap::ArgVector& arguments = ap.args(); 
     const cclap::NamedPairVector& flags = ap.flags(); 
     const cclap::ArgVector& switches = ap.switches();
+
+    std::cout << program_name << " ";
 
     // Printing all the arguments, demo on how to access each one
     for (auto arg: arguments) {

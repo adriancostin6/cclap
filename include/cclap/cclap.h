@@ -77,7 +77,7 @@ private:
     bool is_flag(const char *argv[], int argc, int pos);
     bool is_switch(const char *argv[], int argc, int pos);
 
-    std::string_view program_name_;
+    ArgName program_name_;
     NamedPairVector flags_;
     ArgVector switches_;
     ArgVector arguments_;
