@@ -72,7 +72,7 @@ In order to use the library in your own project, follow the steps below.
 ### CMake integration
 
 A barebones example CMake file has been provided below. Using this along with
-the example-usage.cpp found in the [./test](test) directory should provide an introduction
+the example-usage.cpp found in the [test](test) directory should provide an introduction
 into how to use the API to parse command line arguments.
 
 ``` cmake
@@ -86,6 +86,8 @@ FetchContent_Declare(
     )
 message(STATUS "Fetching cclap...")
 FetchContent_MakeAvailable(cclap)
+message(STATUS "Copying folder cclap/include to project root...")
+file(COPY ${cclap_SOURCE_DIR}/include DESTINATION ${CMAKE_SOURCE_DIR})
 
 add_executable(example-usage example-usage.cpp)
 target_link_libraries(example-usage PRIVATE cclap) 
@@ -97,7 +99,7 @@ target_include_directories(example-usage PRIVATE ${CMAKE_SOURCE_DIR}/include)
 The first step is creating a directory for your project. After doing so, create
 a new CMakeLists.txt file containing the template provided above inside it.
 
-The next step involves copying the cclap include directory into your project folder, along with the example.
+The next step involves copying the example from the [test](test) folder.
 
 You should end up with something like this:
 
