@@ -23,7 +23,7 @@ TEST_CASE("Right argument order (options last)", "[arg-parser]") {
             "-src"
         };
 
-    cclap::ArgParser ap(argc, argv);
+    cclap::ArgParser ap(argc, (char **)argv);
 
     auto program_name = ap.program_name();
     auto arguments = ap.args();
@@ -87,7 +87,7 @@ TEST_CASE("Wrong argument order (options first)", "[arg-parser]") {
             "test"
         };
 
-    cclap::ArgParser ap(argc, argv);
+    cclap::ArgParser ap(argc, (char **)argv);
 
     auto program_name = ap.program_name();
     auto arguments = ap.args();

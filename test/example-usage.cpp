@@ -21,7 +21,7 @@ int main() {
             "-src"
         };
 
-    cclap::ArgParser ap(argc, argv);
+    cclap::ArgParser ap(argc, (char **)argv);
 
     const cclap::ArgName& program_name = ap.program_name(); 
 

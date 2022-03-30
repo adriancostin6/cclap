@@ -4,7 +4,7 @@
 
 namespace cclap {
 
-ArgParser::ArgParser(int argc, const char *argv[]) {
+ArgParser::ArgParser(int argc, char *argv[]) {
     // Assign program name
     program_name_ = std::string_view{ argv[0] };
 
@@ -46,7 +46,7 @@ ArgParser::ArgParser(int argc, const char *argv[]) {
 
 // Returns the argument prefix length
 // Used to determine if string is flag (single/double-dash) or argument
-uint8_t ArgParser::arg_prefix_len(const char *argv) {
+uint8_t ArgParser::arg_prefix_len(char *argv) {
     if (argv[0] == '-' && argv[1] == '-') {
         return 2;
     } else if (argv[0] == '-') {
@@ -56,7 +56,7 @@ uint8_t ArgParser::arg_prefix_len(const char *argv) {
     }
 }
 
-bool ArgParser::is_flag(const char *argv[], int argc, int pos) {
+bool ArgParser::is_flag(char *argv[], int argc, int pos) {
     int current_prefix_len = arg_prefix_len(argv[pos]);
     if (current_prefix_len == 0 || pos + 1 == argc) {
         return false;
@@ -66,14 +66,14 @@ bool ArgParser::is_flag(const char *argv[], int argc, int pos) {
     return next_prefix_len == 0 ? true : false;
 }
 
-bool ArgParser::is_switch(const char *argv[], int argc, int pos) {
+bool ArgParser::is_switch(char *argv[], int argc, int pos) {
     int current_prefix_len = arg_prefix_len(argv[pos]);
     return current_prefix_len != 0 &&
     !is_flag(argv, argc, pos) ? true: false;
 }
 
 ArgVector 
-ArgParser::get_flag_args(const char *argv[], int argc, int& pos) {
+ArgParser::get_flag_args(char *argv[], int argc, int& pos) {
     ++pos;
     ArgVector flag_args;
     while (pos < argc && arg_prefix_len(argv[pos]) == 0) {

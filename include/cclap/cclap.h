@@ -61,7 +61,7 @@ namespace cclap {
 class ArgParser {
 public:
     /// Constructor. Processes input command line arguments into member data
-    ArgParser(int argc, const char *argv[]);
+    ArgParser(int argc, char *argv[]);
 
     const ArgName& program_name() const;
     /// @returns vector of pairs: ["flag-name": [flag value ...]]
@@ -72,10 +72,10 @@ public:
     const ArgVector& args() const;
 
 private:
-    ArgVector get_flag_args(const char *argv[], int argc, int& pos);
-    uint8_t arg_prefix_len(const char *arg);
-    bool is_flag(const char *argv[], int argc, int pos);
-    bool is_switch(const char *argv[], int argc, int pos);
+    ArgVector get_flag_args(char *argv[], int argc, int& pos);
+    uint8_t arg_prefix_len(char *arg);
+    bool is_flag(char *argv[], int argc, int pos);
+    bool is_switch(char *argv[], int argc, int pos);
 
     ArgName program_name_;
     NamedPairVector flags_;
