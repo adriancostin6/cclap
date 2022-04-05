@@ -2,6 +2,8 @@
 #define CCLAP_H
 
 #include <string_view>
+#include <optional>
+#include <functional>
 #include <vector>
 #include <utility>
 
@@ -13,63 +15,59 @@ namespace cclap {
 
 /** @brief Command Line Argument Parser class.
 *
-*   Takes a string of command line arguments, processes them and stores them,
-*   separating into required and optional arguments.
-*   @note 
-*   Optional arguments are split into flags and switches, the difference
-*   being that flags can accept extra input arguments as opposed to switches.
-*
-*   Example usage:
-*   @code 
-*   ArgParser ap("hello world -i ~/infile1.txt ~/infile2.txt -o ~/outfile.txt" --read-one-line -rol)
-*
-*   auto required_args = ap.args();
-*   auto flags = ap.flags();
-*   auto switches = ap.switches();
-*
-*   // Accessing regular, required arguments
-*   for (auto arg: required_args) {
-*       std::cout << arg << std::endl;
-*   }
-*
-*   // Accessing flags
-*   for (auto flag: flags) {
-*       std::cout << "Flag:" << flag.first << " Value: "<< flag.second << std::endl;
-*   }
-*
-*   // Accessing switches
-*   for (auto switch_pair: switches) {
-*       //Single switches
-*       if (switch_pair.first == cclap::SwitchType::SINGLE) {
-*           std::cout << "Single switches: ";
-*           for (auto switch: switch_pair.second) {
-*              std::cout << switch << " "; 
-*           }
-*           std::cout << std::endl;
-*       }
-*
-*       //Multi switches
-*       if (switch_pair.first == cclap::SwitchType::MULTI) {
-*           std::cout << "Multi switch: " << switch_pair.second;
-*       }
-*   }
-*   @endcode
+*   Processes and stores command line arguments separating into flags, switches
+*   and other arguments.
 *
 *   @author Adrian Costin <adriancostin6@gmail.com>
 *   @date 28 March, 2022
 */
 class ArgParser {
 public:
-    /// Constructor. Processes input command line arguments into member data
+    ArgParser() = delete;
+
+    /**
+     * @brief Constructor. 
+     *
+     * Process and store command line arguments.
+     * @returns ArgParser object containing arguments, grouped by type
+     * */
     ArgParser(int argc, char *argv[]);
 
     const ArgName& program_name() const;
-    /// @returns vector of pairs: ["flag-name": [flag value ...]]
+
+    /**
+     * @brief Getter for flag type arguments.
+     *
+     * Flags contain arguments that are associated with them.
+     * Example: -i file --output file
+     * @returns vector of flag pairs: ["flag-name": [flag value ...] ...]
+     * */
     const NamedPairVector& flags() const;
-    /// @returns vector of pairs: [SwitchType: "switch-name" ...]
+
+    /**
+     * @brief Getter for switch type arguments.
+     *
+     * Switches are flags that do not have values associated with them.
+     * Example: -uno --skip-intro -h
+     * @returns vector of switches: ["switch-name" ...]
+     * */
     const ArgVector& switches() const;
-    /// @returns vector of arguments: [arg ...]
+
+    /**
+     * @brief Getter for other arguments.
+     * @returns vector of arguments: [arg ...]
+     * */
     const ArgVector& args() const;
+
+    /** 
+     * @param[in]  flag_name Name of flag to search, without dashes
+     * @returns optional containing the flag value if present
+     * */
+    std::optional<const ArgVector>
+    find_flag(std::string_view flag_name) const; 
+
+    bool find_switch(std::string_view switch_name) const;
+    
 
 private:
     ArgVector get_flag_args(char *argv[], int argc, int& pos);

@@ -1,6 +1,7 @@
 #include "cclap/cclap.h"
 
 #include <stdexcept>
+#include <algorithm>
 
 namespace cclap {
 
@@ -72,8 +73,7 @@ bool ArgParser::is_switch(char *argv[], int argc, int pos) {
     !is_flag(argv, argc, pos) ? true: false;
 }
 
-ArgVector 
-ArgParser::get_flag_args(char *argv[], int argc, int& pos) {
+ArgVector ArgParser::get_flag_args(char *argv[], int argc, int& pos) {
     ++pos;
     ArgVector flag_args;
     while (pos < argc && arg_prefix_len(argv[pos]) == 0) {
@@ -81,6 +81,27 @@ ArgParser::get_flag_args(char *argv[], int argc, int& pos) {
         ++pos;
     }
     return flag_args;
+}
+
+std::optional<const ArgVector>
+ArgParser::find_flag(std::string_view flag_name) const {
+    auto it = std::find_if(flags_.begin(),
+                 flags_.end(),
+                 [&flag_name](auto pair) { return pair.first == flag_name; });
+    if (it != flags_.end()) {
+        return it->second;
+    }
+    return std::nullopt;
+}
+
+bool ArgParser::find_switch(std::string_view switch_name) const {
+    auto it = std::find_if(switches_.begin(),
+                 switches_.end(),
+                 [&switch_name](auto name) { return name == switch_name; });
+    if (it != switches_.end()) {
+        return true;
+    }
+    return false;
 }
 
 const NamedPairVector& ArgParser::flags() const { return flags_; }

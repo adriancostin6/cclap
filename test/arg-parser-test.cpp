@@ -101,3 +101,57 @@ TEST_CASE("Wrong argument order (options first)", "[arg-parser]") {
         REQUIRE(argument.front() != '-');
     }
 }
+
+TEST_CASE("Finding a flag", "[arg-parser]") {
+    int argc = 13;
+    const char *argv[] = {
+            "/home/adrian/repos/src/cclap/build/test/arg-parser-test",
+            "hello",
+            "world",
+            "test",
+            "-i",
+            "input_file1.txt",
+            "input_file2.txt",
+            "-o",
+            "outfile.txt",
+            "--single-switch",
+            "-s",
+            "--multi-switch-next",
+            "-src"
+        };
+
+    cclap::ArgParser ap(argc, (char **)argv);
+
+    auto flag = ap.find_flag("i");
+
+    REQUIRE(flag != std::nullopt);
+    REQUIRE((*flag)[0] == "input_file1.txt");
+    REQUIRE((*flag)[1] == "input_file2.txt");
+} 
+
+TEST_CASE("Finding a switch", "[arg-parser]") {
+    int argc = 13;
+    const char *argv[] = {
+            "/home/adrian/repos/src/cclap/build/test/arg-parser-test",
+            "hello",
+            "world",
+            "test",
+            "-i",
+            "input_file1.txt",
+            "input_file2.txt",
+            "-o",
+            "outfile.txt",
+            "--single-switch",
+            "-s",
+            "--multi-switch-next",
+            "-src"
+        };
+
+    cclap::ArgParser ap(argc, (char **)argv);
+
+    REQUIRE(ap.find_switch("multi-switch-next"));
+    REQUIRE(ap.find_switch("single-switch"));
+    REQUIRE(ap.find_switch("s"));
+    REQUIRE(ap.find_switch("r"));
+    REQUIRE(ap.find_switch("c"));
+} 
